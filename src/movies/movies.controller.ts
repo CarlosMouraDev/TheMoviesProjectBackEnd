@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { SearchMoviesDto } from './dto/movies.dto';
 
@@ -9,5 +9,10 @@ export class MoviesController {
   @Get('search')
   search(@Query() query: SearchMoviesDto) {
     return this.moviesService.searchMovies(query.query, query.page);
+  }
+
+  @Get(':id')
+  getDetails(@Param('id') id: number) {
+    return this.moviesService.getMovieDetails(id);
   }
 }

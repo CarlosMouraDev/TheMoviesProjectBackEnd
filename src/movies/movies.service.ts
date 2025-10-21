@@ -23,4 +23,14 @@ export class MoviesService {
       })),
     };
   }
+
+  async getMovieDetails(id: number) {
+    const response = await axios.get(`${this.baseUrl}/movie/${id}`, {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        language: 'pt-BR',
+      },
+    });
+    return response.data;
+  }
 }
