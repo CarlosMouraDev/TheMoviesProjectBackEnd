@@ -24,13 +24,9 @@ model User {
 }
 
 model Favorite {
-  id           Int      @id @default(autoincrement())
-  movieId      Int
-  title        String
-  posterPath   String?
-  releaseDate  String?
-  voteAverage  Float?
-  userId       Int
-  user         User      @relation(fields: [userId], references: [id])
-  createdAt    DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  movieId   Int      
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
