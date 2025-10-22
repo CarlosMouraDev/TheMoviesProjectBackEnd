@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
 import { TokenPayloadParam } from 'src/auth/params/token-payload.param';
 import { TokenPayloadDto } from 'src/auth/dto/token-payload.dto';
@@ -16,5 +16,14 @@ export class FavoritesController {
     @Body() movie: FavoritesDto,
   ) {
     return this.favoritesService.addFavorite(tokenPayload.sub, movie);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  removeFavorite(
+    @TokenPayloadParam() tokenPayload: TokenPayloadDto,
+    @Body() movie: FavoritesDto,
+  ) {
+    return this.favoritesService.removeFavorite(tokenPayload.sub, movie);
   }
 }

@@ -12,4 +12,11 @@ export class FavoritesService {
       data: { userId, movieId: mId },
     });
   }
+
+  async removeFavorite(userId: number, movieId: FavoritesDto) {
+    const mId = Number(movieId.movieId);
+    return prisma.favorite.deleteMany({
+      where: { userId, movieId: mId },
+    });
+  }
 }
