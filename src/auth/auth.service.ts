@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
-import * as bcrypt from 'bcryptjs';
 import { HashingService } from 'src/common/hashing/hashing.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtPayload } from './types/jwt-payload.type';
@@ -12,6 +12,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly hashingService: HashingService,
+    private readonly configService: ConfigService, // 👈 adiciona isso
   ) {}
 
   async login(loginDto: LoginDto) {
@@ -35,7 +36,13 @@ export class AuthService {
       sub: user.id,
       email: user.email,
     };
-    const accessToken = await this.jwtService.signAsync(jwtPayload);
+
+    const accessToken = await this.jwtService.signAsync(jwtPayload, {
+      secret: this.configService.get('jwt.secret'),
+      audience: this.configService.get('jwt.audience'),
+      issuer: this.configService.get('jwt.issuer'),
+      expiresIn: `${this.configService.get('jwt.jwtTtl')}s`,
+    });
 
     return { accessToken };
   }
