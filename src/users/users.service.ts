@@ -1,13 +1,7 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { HashingService } from 'src/common/hashing/hashing.service';
 import { PrismaClient } from 'generated/prisma';
-import { NotFoundError } from 'rxjs';
-import { LoginDto } from './dto/login.dto';
 
 const prisma = new PrismaClient();
 
@@ -27,17 +21,5 @@ export class UsersService {
     if (!user) throw new NotFoundException('Usuário não encontrado');
 
     return user;
-  }
-
-  async login(body: LoginDto) {
-    const user = await this.getByEmail(body.email);
-
-    const match = await this.hashingService.compare(
-      body.password,
-      user.password,
-    );
-    if (!match) throw new UnauthorizedException('Senha incorreta');
-
-    return { message: 'Login bem-sucedido', userId: user.id };
   }
 }
