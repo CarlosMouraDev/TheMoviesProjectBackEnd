@@ -19,4 +19,12 @@ export class FavoritesService {
       where: { userId, movieId: mId },
     });
   }
+
+  async getFavorites(userId: number) {
+    const favorites = await prisma.favorite.findMany({
+      where: { userId },
+      select: { movieId: true },
+    });
+    return favorites.map((f) => f.movieId);
+  }
 }
