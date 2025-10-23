@@ -31,7 +31,10 @@ export class UsersService {
   }
 
   async getByPublicId(publicId: string) {
-    const user = await prisma.user.findUnique({ where: { publicId } });
+    const user = await prisma.user.findUnique({
+      where: { publicId },
+      select: { id: true },
+    });
     if (!user) throw new NotFoundException('Usuário não encontrado.');
 
     return user;
