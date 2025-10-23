@@ -22,4 +22,18 @@ export class UsersService {
 
     return user;
   }
+
+  async getById(id: number) {
+    const user = prisma.user.findUnique({ where: { id } });
+    if (!user) throw new NotFoundException('Usuário não encontrado.');
+
+    return user;
+  }
+
+  async getByPublicId(publicId: string) {
+    const user = await prisma.user.findUnique({ where: { publicId } });
+    if (!user) throw new NotFoundException('Usuário não encontrado.');
+
+    return user;
+  }
 }
