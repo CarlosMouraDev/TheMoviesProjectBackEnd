@@ -35,6 +35,7 @@ export class MoviesService {
     return response.data;
   }
 
+  // Receive movies id and create another array with more infos
   async getMoviesByIds(movieIds: number[]) {
     if (!movieIds.length) return [];
 
