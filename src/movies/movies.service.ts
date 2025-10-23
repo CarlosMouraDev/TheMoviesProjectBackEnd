@@ -35,6 +35,29 @@ export class MoviesService {
     return response.data;
   }
 
+  async getPopularMovies(page: number = 1) {
+    try {
+      const response = await axios.get(`${this.baseUrl}/movie/popular`, {
+        params: {
+          api_key: this.TMDB_API_KEY,
+          page,
+          language: 'pt-BR',
+        },
+      });
+
+      return {
+        page: response.data.page,
+        total_pages: response.data.total_pages,
+        total_results: response.data.total_results,
+        results: response.data.results.map((movie: any) => ({
+          movie,
+        })),
+      };
+    } catch (error) {
+      throw new Error('Erro ao buscar filmes populares.');
+    }
+  }
+
   // Receive movies id and create another array with more infos
   async getMoviesByIds(movieIds: number[]) {
     if (!movieIds.length) return [];
