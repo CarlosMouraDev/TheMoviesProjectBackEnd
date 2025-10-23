@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -37,9 +38,12 @@ export class FavoritesController {
   @Delete(':movieId')
   removeFavorite(
     @TokenPayloadParam() tokenPayload: TokenPayloadDto,
-    @Param('movieId') movie: FavoritesDto,
+    @Param('movieId') movie: string,
   ) {
-    return this.favoritesService.removeFavorite(tokenPayload.sub, movie);
+    const num = Number(movie);
+    if (Number.isNaN(num))
+      throw new BadRequestException('O id do filme precisa ser um número');
+    return this.favoritesService.removeFavorite(tokenPayload.sub, num);
   }
 
   @UseGuards(JwtAuthGuard)
