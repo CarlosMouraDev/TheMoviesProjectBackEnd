@@ -12,7 +12,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly hashingService: HashingService,
-    private readonly configService: ConfigService, // 👈 adiciona isso
+    private readonly configService: ConfigService,
   ) {}
 
   async login(loginDto: LoginDto) {
