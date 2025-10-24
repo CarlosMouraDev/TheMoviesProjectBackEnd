@@ -20,7 +20,14 @@ export class MoviesService {
       total_pages: response.data.total_pages,
       total_results: response.data.total_results,
       results: response.data.results.map((movie: any) => ({
-        movie,
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        vote_average: movie.vote_average,
+        overview: movie.overview,
+        release_date: movie.release_date,
+        backdrop_path: movie.backdrop_path,
+        popularity: movie.popularity,
       })),
     };
   }
@@ -50,7 +57,14 @@ export class MoviesService {
         total_pages: response.data.total_pages,
         total_results: response.data.total_results,
         results: response.data.results.map((movie: any) => ({
-          movie,
+          id: movie.id,
+          title: movie.title,
+          poster_path: movie.poster_path,
+          vote_average: movie.vote_average,
+          overview: movie.overview,
+          release_date: movie.release_date,
+          backdrop_path: movie.backdrop_path,
+          popularity: movie.popularity,
         })),
       };
     } catch (error) {
