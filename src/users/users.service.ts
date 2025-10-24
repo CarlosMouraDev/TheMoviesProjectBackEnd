@@ -20,9 +20,11 @@ export class UsersService {
     if (user) throw new ConflictException('Email já registrado');
 
     const hashed = await this.hashingService.hash(createUserDto.password);
-    return prisma.user.create({
+    await prisma.user.create({
       data: { ...createUserDto, password: hashed },
     });
+
+    return { message: 'Usuário criado' };
   }
 
   async getByEmail(email: string) {
