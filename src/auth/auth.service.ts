@@ -44,6 +44,6 @@ export class AuthService {
       expiresIn: `${this.configService.get('jwt.jwtTtl')}s`,
     });
 
-    return { accessToken };
+    return { accessToken, name: user.name };
   }
 }
