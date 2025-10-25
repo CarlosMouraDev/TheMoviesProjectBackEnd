@@ -61,6 +61,9 @@ export class FavoritesController {
 
     const favorites = await this.favoritesService.getFavorites(user.id);
     const movies = await this.moviesService.getMoviesByIds(favorites);
-    return movies;
+    return {
+      movies,
+      name: user.name,
+    };
   }
 }
