@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   NotFoundException,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { TokenPayloadParam } from 'src/auth/params/token-payload.param';
 import { TokenPayloadDto } from 'src/auth/dto/token-payload.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('users')
 export class UsersController {
@@ -30,5 +32,28 @@ export class UsersController {
       publicId: user.publicId,
       link: `favorites/public/${user.publicId}`,
     };
+  }
+
+  @Get('info')
+  @UseGuards(JwtAuthGuard)
+  async getUserInfo(@TokenPayloadParam() token: TokenPayloadDto) {
+    const user = await this.usersService.getById(token.sub);
+    return {
+      name: user?.name,
+      email: user?.email,
+    };
+  }
+
+  @Patch('password')
+  @UseGuards(JwtAuthGuard)
+  async updatePassword(
+    @Body() updatePasswordDto: UpdatePasswordDto,
+    @TokenPayloadParam() token: TokenPayloadDto,
+  ) {
+    return this.usersService.updatePassword(
+      updatePasswordDto.currentPassword,
+      updatePasswordDto.newPassword,
+      token.sub,
+    );
   }
 }

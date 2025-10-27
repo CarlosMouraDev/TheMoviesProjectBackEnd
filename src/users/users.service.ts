@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { HashingService } from 'src/common/hashing/hashing.service';
@@ -49,5 +50,32 @@ export class UsersService {
     if (!user) throw new NotFoundException('Usuário não encontrado.');
 
     return user;
+  }
+
+  async updatePassword(
+    currentPassword: string,
+    newPassword: string,
+    userId: number,
+  ) {
+    const user = await this.getById(userId);
+    if (!user) throw new NotFoundException('Usuário não encontrado.');
+
+    const isPasswordValid = await this.hashingService.compare(
+      currentPassword,
+      user?.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Senha incorreta.');
+    }
+
+    const hashedPassword = await this.hashingService.hash(newPassword);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    return { message: 'Senha alterada com sucesso' };
   }
 }
