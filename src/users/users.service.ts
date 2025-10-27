@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -66,7 +67,7 @@ export class UsersService {
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Senha incorreta.');
+      throw new ForbiddenException('Senha incorreta.');
     }
 
     const hashedPassword = await this.hashingService.hash(newPassword);
