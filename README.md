@@ -46,7 +46,7 @@ npm install
 
 ### Configurar variáveis de ambiente
 
-Edite o `.env-EXAMPLE` com suas informações de acordo com o indicado nos comentários e renomeie para `.env`.
+Edite o `.env.EXAMPLE` com suas informações de acordo com o indicado nos comentários e renomeie para `.env`.
 
 ### Rodar o Prisma
 
