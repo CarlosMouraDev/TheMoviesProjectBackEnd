@@ -25,6 +25,7 @@ export class FavoritesController {
     private readonly moviesService: MoviesService,
   ) {}
 
+  // POST /favorites
   @UseGuards(JwtAuthGuard)
   @Post()
   addFavorite(
@@ -34,6 +35,7 @@ export class FavoritesController {
     return this.favoritesService.addFavorite(tokenPayload.sub, movie);
   }
 
+  // DELETE /favorites/:movieId
   @UseGuards(JwtAuthGuard)
   @Delete(':movieId')
   removeFavorite(
@@ -46,6 +48,7 @@ export class FavoritesController {
     return this.favoritesService.removeFavorite(tokenPayload.sub, num);
   }
 
+  // GET /favorites
   @UseGuards(JwtAuthGuard)
   @Get()
   async getFavorites(@TokenPayloadParam() token: TokenPayloadDto) {
@@ -54,6 +57,7 @@ export class FavoritesController {
     return movies;
   }
 
+  // GET /favorites/public/:publicId
   @Get('public/:publicId')
   async getPublicFavorites(@Param('publicId') publicId: string) {
     const user = await this.usersService.getByPublicId(publicId);

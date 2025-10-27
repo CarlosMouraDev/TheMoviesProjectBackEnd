@@ -6,6 +6,7 @@ export class MoviesService {
   private readonly baseUrl = 'https://api.themoviedb.org/3';
   private readonly TMDB_API_KEY = process.env.TMDB_API_KEY;
 
+  // Search by movies on tmdb api by name with pagination
   async searchMovies(query: string, page: number = 1) {
     const response = await axios.get(`${this.baseUrl}/search/movie`, {
       params: {
@@ -32,6 +33,7 @@ export class MoviesService {
     };
   }
 
+  // Return all details for one movie find by id
   async getMovieDetails(id: number) {
     const response = await axios.get(`${this.baseUrl}/movie/${id}`, {
       params: {
@@ -42,6 +44,7 @@ export class MoviesService {
     return response.data;
   }
 
+  // Return current popular movies from tmdb api with pagination
   async getPopularMovies(page: number = 1) {
     try {
       const response = await axios.get(`${this.baseUrl}/movie/popular`, {

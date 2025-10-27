@@ -15,6 +15,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
+  // Log in the user if email and password are correct
   async login(loginDto: LoginDto) {
     const user = await this.usersService.getByEmail(loginDto.email);
     const error = new UnauthorizedException('Email ou senha inválidos.');

@@ -3,7 +3,6 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { HashingService } from 'src/common/hashing/hashing.service';
@@ -15,6 +14,7 @@ const prisma = new PrismaClient();
 export class UsersService {
   constructor(private readonly hashingService: HashingService) {}
 
+  // Creates an user accordingly to provided data
   async createUser(createUserDto: CreateUserDto) {
     const user = await prisma.user.findUnique({
       where: { email: createUserDto.email },
@@ -29,6 +29,7 @@ export class UsersService {
     return { message: 'Usuário criado' };
   }
 
+  // Return user info found by email
   async getByEmail(email: string) {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) throw new NotFoundException('Usuário não encontrado');
@@ -36,6 +37,7 @@ export class UsersService {
     return user;
   }
 
+  // Return user info found by id
   async getById(id: number) {
     const user = prisma.user.findUnique({ where: { id } });
     if (!user) throw new NotFoundException('Usuário não encontrado.');
@@ -43,6 +45,7 @@ export class UsersService {
     return user;
   }
 
+  // Return user info found by public id
   async getByPublicId(publicId: string) {
     const user = await prisma.user.findUnique({
       where: { publicId },
@@ -53,6 +56,7 @@ export class UsersService {
     return user;
   }
 
+  // Updates password if password provided matches with current password
   async updatePassword(
     currentPassword: string,
     newPassword: string,

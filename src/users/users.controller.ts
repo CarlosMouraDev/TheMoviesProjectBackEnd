@@ -18,11 +18,13 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // POST /users/register
   @Post('register')
   register(@Body() body: CreateUserDto) {
     return this.usersService.createUser(body);
   }
 
+  // GET /users/public-link
   @Get('public-link')
   @UseGuards(JwtAuthGuard)
   async getPublicLink(@TokenPayloadParam() token: TokenPayloadDto) {
@@ -34,6 +36,7 @@ export class UsersController {
     };
   }
 
+  // GET /users/info
   @Get('info')
   @UseGuards(JwtAuthGuard)
   async getUserInfo(@TokenPayloadParam() token: TokenPayloadDto) {
@@ -44,6 +47,7 @@ export class UsersController {
     };
   }
 
+  // PATCH /users/password
   @Patch('password')
   @UseGuards(JwtAuthGuard)
   async updatePassword(

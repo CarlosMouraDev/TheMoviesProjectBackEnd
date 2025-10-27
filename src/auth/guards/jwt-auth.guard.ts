@@ -11,6 +11,7 @@ import jwtConfig from '../config/jwt.config';
 import { type ConfigType } from '@nestjs/config';
 import { REQUEST_TOKEN_PAYLOAD_KEY } from '../auth.constants';
 
+// Athenticate Guard
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
   constructor(
