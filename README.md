@@ -34,8 +34,8 @@ A escolha do Render se deu por oferecer uma configuração simples e gratuita pa
 ### Clonar o repositório
 
 ```bash
-git clone https://github.com/CarlosMouraDev/filmes-api.git
-cd filmes-api
+git clone https://github.com/CarlosMouraDev/TheMoviesProjectBackEnd
+cd TheMoviesProjectBackEnd
 ```
 
 ### Instalar dependências
